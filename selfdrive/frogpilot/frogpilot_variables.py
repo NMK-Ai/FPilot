@@ -158,8 +158,6 @@ frogpilot_default_params: list[tuple[str, str | bytes, int]] = [
   ("GoatScream", "0", 2),
   ("GreenLightAlert", "0", 0),
   ("HideAlerts", "0", 2),
-  ("HideAOLStatusBar", "0", 2),
-  ("HideCEMStatusBar", "0", 2),
   ("HideCSCUI", "0", 2),
   ("HideLeadMarker", "0", 2),
   ("HideMapIcon", "0", 2),
@@ -450,7 +448,6 @@ class FrogPilotVariables:
     toggle.always_on_lateral_lkas = toggle.always_on_lateral_set and car_make != "subaru" and (params.get_bool("AlwaysOnLateralLKAS") if tuning_level >= level["AlwaysOnLateralLKAS"] else default.get_bool("AlwaysOnLateralLKAS"))
     toggle.always_on_lateral_main = toggle.always_on_lateral_set and (params.get_bool("AlwaysOnLateralMain") if tuning_level >= level["AlwaysOnLateralMain"] else default.get_bool("AlwaysOnLateralMain"))
     toggle.always_on_lateral_pause_speed = params.get_int("PauseAOLOnBrake") if toggle.always_on_lateral_set and tuning_level >= level["PauseAOLOnBrake"] else default.get_int("PauseAOLOnBrake")
-    toggle.always_on_lateral_status_bar = toggle.always_on_lateral_set and not (params.get_bool("HideAOLStatusBar") if tuning_level >= level["HideAOLStatusBar"] else default.get_bool("HideAOLStatusBar"))
 
     toggle.automatic_updates = params.get_bool("AutomaticUpdates") if tuning_level >= level["AutomaticUpdates"] else default.get_bool("AutomaticUpdates")
 
@@ -471,7 +468,6 @@ class FrogPilotVariables:
     toggle.conditional_model_stop_time = params.get_int("CEModelStopTime") if toggle.conditional_experimental_mode and tuning_level >= level["CEModelStopTime"] else default.get_int("CEModelStopTime")
     toggle.conditional_signal = params.get_int("CESignalSpeed") if toggle.conditional_experimental_mode and tuning_level >= level["CESignalSpeed"] else default.get_int("CESignalSpeed")
     toggle.conditional_signal_lane_detection = toggle.conditional_signal != 0 and (params.get_bool("CESignalLaneDetection") if tuning_level >= level["CESignalLaneDetection"] else default.get_bool("CESignalLaneDetection"))
-    toggle.conditional_status_bar = toggle.conditional_experimental_mode and not (params.get_bool("HideCEMStatusBar") if tuning_level >= level["HideCEMStatusBar"] else default.get_bool("HideCEMStatusBar"))
     if toggle.conditional_experimental_mode:
       params.put_bool("ExperimentalMode", True)
 
