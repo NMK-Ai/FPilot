@@ -51,11 +51,11 @@ void update_leads(UIState *s, const cereal::RadarState::Reader &radar_state, con
   cereal::RadarState::LeadData::Reader (cereal::RadarState::Reader::*get_lead_data[7])() const = {
     &cereal::RadarState::Reader::getLeadOne,
     &cereal::RadarState::Reader::getLeadTwo,
+    &cereal::RadarState::Reader::getLeadFar,
     &cereal::RadarState::Reader::getLeadLeft,
     &cereal::RadarState::Reader::getLeadRight,
     &cereal::RadarState::Reader::getLeadLeftFar,
-    &cereal::RadarState::Reader::getLeadRightFar,
-    &cereal::RadarState::Reader::getLeadsLead
+    &cereal::RadarState::Reader::getLeadRightFar
   };
 
   for (int i = 0; i < 7; ++i) {

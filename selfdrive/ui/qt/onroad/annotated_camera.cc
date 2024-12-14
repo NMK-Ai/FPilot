@@ -839,7 +839,7 @@ void AnnotatedCameraWidget::drawLead(QPainter &painter, const cereal::RadarState
         lead_y = y + text_y + textHeight;
       }
 
-      if (!adjacent || fabs((x + text_x + textWidth) - lead_x) >= textWidth || fabs((y + text_y + textHeight) - lead_y) >= textHeight) {
+      if (!adjacent || fabs((x + text_x + textWidth) - lead_x) >= textWidth * 1.25 || fabs((y + text_y + textHeight) - lead_y) >= textHeight * 2) {
         painter.drawText(text_x, text_y, text);
       }
     }
@@ -924,29 +924,29 @@ void AnnotatedCameraWidget::paintEvent(QPaintEvent *event) {
         update_leads(s, radar_state, model.getPosition());
         auto lead_one = radar_state.getLeadOne();
         auto lead_two = radar_state.getLeadTwo();
+        auto lead_far = radar_state.getLeadFar();
         auto lead_left = radar_state.getLeadLeft();
         auto lead_right = radar_state.getLeadRight();
         auto lead_left_far = radar_state.getLeadLeftFar();
         auto lead_right_far = radar_state.getLeadRightFar();
-        auto leads_lead = radar_state.getLeadsLead();
+        if (lead_far.getStatus()) {
+          drawLead(painter, lead_far, s->scene.lead_vertices[2], v_ego, s->scene.lead_marker_color);
+        }
         if (lead_left.getStatus()) {
-          drawLead(painter, lead_left, s->scene.lead_vertices[2], v_ego, blueColor(), true);
+          drawLead(painter, lead_left, s->scene.lead_vertices[3], v_ego, blueColor(), true);
         }
         if (lead_right.getStatus()) {
-          drawLead(painter, lead_right, s->scene.lead_vertices[3], v_ego, orangeColor(), true);
+          drawLead(painter, lead_right, s->scene.lead_vertices[4], v_ego, orangeColor(), true);
         }
         if (lead_left_far.getStatus()) {
-          drawLead(painter, lead_left_far, s->scene.lead_vertices[4], v_ego, purpleColor(), true);
+          drawLead(painter, lead_left_far, s->scene.lead_vertices[5], v_ego, purpleColor(), true);
         }
         if (lead_right_far.getStatus()) {
-          drawLead(painter, lead_right_far, s->scene.lead_vertices[5], v_ego, yellowColor(), true);
+          drawLead(painter, lead_right_far, s->scene.lead_vertices[6], v_ego, yellowColor(), true);
         }
         if (lead_two.getStatus()) {
           drawLead(painter, lead_two, s->scene.lead_vertices[1], v_ego, s->scene.lead_marker_color);
         } else if (lead_one.getStatus()) {
-          if (leads_lead.getStatus()) {
-            drawLead(painter, leads_lead, s->scene.lead_vertices[6], v_ego, s->scene.lead_marker_color);
-          }
           drawLead(painter, lead_one, s->scene.lead_vertices[0], v_ego, s->scene.lead_marker_color);
         } else {
           lead_x = 0;
