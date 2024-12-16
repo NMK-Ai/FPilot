@@ -86,7 +86,8 @@ class Parser:
 
   def parse_outputs(self, outs: dict[str, np.ndarray]) -> dict[str, np.ndarray]:
     self.parse_mdn('plan', outs, in_N=ModelConstants.PLAN_MHP_N, out_N=ModelConstants.PLAN_MHP_SELECTION,
-                   out_shape=(ModelConstants.IDX_N,ModelConstants.PLAN_WIDTH))
+                   out_shape=(ModelConstants.IDX_N,ModelConstants.PLAN_WIDTH),
+                   use_desired_curvature=False)
     self.parse_mdn('lane_lines', outs, in_N=0, out_N=0, out_shape=(ModelConstants.NUM_LANE_LINES,ModelConstants.IDX_N,ModelConstants.LANE_LINES_WIDTH))
     self.parse_mdn('road_edges', outs, in_N=0, out_N=0, out_shape=(ModelConstants.NUM_ROAD_EDGES,ModelConstants.IDX_N,ModelConstants.LANE_LINES_WIDTH))
     self.parse_mdn('pose', outs, in_N=0, out_N=0, out_shape=(ModelConstants.POSE_WIDTH,))
@@ -96,7 +97,7 @@ class Parser:
                    out_shape=(ModelConstants.LEAD_TRAJ_LEN,ModelConstants.LEAD_WIDTH))
     if 'lat_planner_solution' in outs:
       self.parse_mdn('lat_planner_solution', outs, in_N=0, out_N=0, out_shape=(ModelConstants.IDX_N,ModelConstants.LAT_PLANNER_SOLUTION_WIDTH))
-    if 'desired_curvature' in outs:
+    if use_desired_curvature and 'desired_curvature' in outs:
       self.parse_mdn('desired_curvature', outs, in_N=0, out_N=0, out_shape=(ModelConstants.DESIRED_CURV_WIDTH,))
     for k in ['lead_prob', 'lane_lines_prob', 'meta']:
       self.parse_binary_crossentropy(k, outs)

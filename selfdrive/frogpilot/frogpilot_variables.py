@@ -37,8 +37,8 @@ MODELS_PATH = os.path.join("/data", "models")
 RANDOM_EVENTS_PATH = os.path.join(BASEDIR, "selfdrive", "frogpilot", "assets", "random_events")
 THEME_SAVE_PATH = os.path.join("/data", "themes")
 
-DEFAULT_MODEL = "postal-service"
-DEFAULT_MODEL_NAME = "Postal Service 👀📡"
+DEFAULT_MODEL = "north-america"
+DEFAULT_MODEL_NAME = "North America 👀📡"
 
 DEFAULT_CLASSIC_MODEL = "wd-40"
 DEFAULT_CLASSIC_MODEL_NAME = "WD-40 (Default) 👀📡"
@@ -106,6 +106,7 @@ frogpilot_default_params: list[tuple[str, str | bytes, int]] = [
   ("CESpeedLead", "0", 1),
   ("CEStoppedLead", "0", 1),
   ("ClassicModels", "", 1),
+  ("ClippedCurvatureModels", "", 1),
   ("ClusterOffset", "1.015", 2),
   ("Compass", "0", 1),
   ("ConditionalExperimental", "1", 0),
@@ -123,6 +124,7 @@ frogpilot_default_params: list[tuple[str, str | bytes, int]] = [
   ("CustomSounds", "frog", 0),
   ("CustomUI", "1", 0),
   ("DecelerationProfile", "1", 2),
+  ("DesiredCurvatureModels", "", 1),
   ("DeveloperUI", "0", 2),
   ("DeviceManagement", "1", 1),
   ("DeviceShutdown", "9", 1),
@@ -618,6 +620,10 @@ class FrogPilotVariables:
       toggle.model_name = default.get("ModelName", encoding='utf-8')
     classic_models = params.get("ClassicModels", encoding='utf-8') or ""
     toggle.classic_model = classic_models and toggle.model in classic_models.split(',')
+    clipped_curvature_models = params.get("ClippedCurvatureModels", encoding='utf-8') or ""
+    toggle.clipped_curvature_model = clipped_curvature_models and toggle.model in clipped_curvature_models.split(',')
+    desired_curvature_models = params.get("DesiredCurvatureModels", encoding='utf-8') or ""
+    toggle.desired_curvature_model = desired_curvature_models and toggle.model in desired_curvature_models.split(',')
     navigation_models = params.get("NavigationModels", encoding='utf-8') or ""
     toggle.navigationless_model = navigation_models and toggle.model not in navigation_models.split(',')
     radarless_models = params.get("RadarlessModels", encoding='utf-8') or ""
