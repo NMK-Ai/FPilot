@@ -81,15 +81,13 @@ class FrogPilotPlanner:
 
     self.road_curvature = calculate_road_curvature(modelData, v_ego) if not carState.standstill else 1
 
-    self.tracking_lead = self.set_lead_status(frogpilotCarState, v_ego, frogpilot_toggles)
+    self.tracking_lead = self.set_lead_status(v_lead)
     self.v_cruise = self.frogpilot_vcruise.update(carControl, carState, controlsState, frogpilotCarControl, frogpilotCarState, frogpilotNavigation, v_cruise, v_ego, frogpilot_toggles)
 
-  def set_lead_status(self, frogpilotCarState, v_ego, frogpilot_toggles):
-    distance_offset = frogpilot_toggles.increased_stopped_distance if not frogpilotCarState.trafficModeActive else 0
-
+  def set_lead_status(self, v_lead):
     following_lead = self.lead_one.status
-    following_lead &= 1 < self.lead_one.dRel < self.model_length + STOP_DISTANCE + distance_offset
-    following_lead &= v_ego > CRUISING_SPEED or self.tracking_lead
+    following_lead &= self.model_length + STOP_DISTANCE + 1 > self.lead_one.dRel
+    following_lead &= v_lead > 1 or self.tracking_lead
 
     self.tracking_lead_mac.add_data(following_lead)
     return self.tracking_lead_mac.get_moving_average() >= THRESHOLD
