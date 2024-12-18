@@ -23,14 +23,29 @@ private:
   void showToggles(const std::set<QString> &keys);
   void updateState(const UIState &s);
 
-  ButtonControl *deleteModelBtn;
+  ButtonControl *selectModelBtn;
+
+  FrogPilotButtonsControl *deleteModelBtn;
+  FrogPilotButtonsControl *downloadModelBtn;
 
   FrogPilotSettingsWindow *parent;
+
+  Params params;
+  Params params_default{"/data/params_default"};
+  Params params_memory{"/dev/shm/params"};
 
   QDir modelDir{"/data/models/"};
 
   QJsonObject frogpilotToggleLevels;
 
+  QMap<QString, QString> modelFileToNameMap;
+
+  QStringList availableModels;
+  QStringList availableModelNames;
+
+  bool allModelsDownloaded;
+  bool allModelsDownloading;
+  bool modelDownloading;
   bool modelRandomizerOpen;
   bool started;
 
